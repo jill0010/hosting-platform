@@ -143,3 +143,9 @@ config=(ROOT/"configure.html").read_text(encoding="utf-8")
 for marker in ('Hostname must be 1–63 letters',"confirmation.setAttribute('role','alert')","$('#hostname').focus()",'autocomplete="off" spellcheck="false" pattern='):
     assert marker in config, "missing hostname validation: "+marker
 print("OK four product mobile menus and hostname review validation")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for marker in ("['◎','Solana','SOL']","seconds:3600","state.seconds=3600","◷ 60:00","max=\"2000\" step=\"0.01\"","Enter an amount from $30 to $2,000.","state.coin==='Solana'?'SOL'","No live quote","NO-VALID-PAYMENT-ADDRESS <small","crypto.getRandomValues(new Uint32Array(1))"):
+    assert marker in home, "missing safe checkout flow or source crypto option: "+marker
+assert 'data-copy="address">Copy</button>' not in home
+print("OK 8 source crypto payment choices, payment preview safety and top-up limits")
