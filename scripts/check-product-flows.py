@@ -42,3 +42,12 @@ domains=(ROOT/"domains.html").read_text(encoding="utf-8")
 assert "new URLSearchParams(location.search).get('domain')" in domains
 assert "search('mydomain'+b.dataset.tld)" in domains
 print("OK .com and account routes, domain query links and all dashboard sections")
+
+# Every editorial and location entrypoint should lead to full product tables.
+for page in ("solutions.html","use-cases.html","guides.html","locations.html","support.html","localized.html"):
+    content=(ROOT/page).read_text(encoding="utf-8")
+    for target in ("vps-plans.html","dedicated-plans.html","rdp-plans.html","gpu-plans.html"):
+        assert target in content, f"{page} does not link to {target}"
+assert "['iceland','🇮🇸'" in (ROOT/"locations.html").read_text(encoding="utf-8")
+assert "current[0]" in (ROOT/"locations.html").read_text(encoding="utf-8")
+print("OK editorial navigation and country-specific product links")
