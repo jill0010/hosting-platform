@@ -226,3 +226,11 @@ gpu=(ROOT/"gpu-plans.html").read_text(encoding="utf-8")
 assert 'const headers=["Plan","GPU","VRAM","CPU","RAM","NVMe","Bandwidth","Price",""]' in gpu
 assert "<td>Unlimited</td>" in gpu
 print("OK original RDP CPU/bandwidth specs, workload cards and GPU bandwidth column")
+
+vps=(ROOT/"vps-plans.html").read_text(encoding="utf-8")
+for model in ("7643","7443P","7313P","9254","9124","9474F","75F3","7543","9354"):
+    assert model in vps, f"missing source VPS EPYC model {model}"
+assert "crypto-node-hosting" in vps and "vpn-hosting" in vps
+dedicated=(ROOT/"dedicated-plans.html").read_text(encoding="utf-8")
+assert "crypto-node-hosting" in dedicated and "support.html?page=contact" in dedicated
+print("OK original jurisdiction-specific VPS CPU mappings and related workload navigation")
