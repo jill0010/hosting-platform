@@ -63,3 +63,18 @@ home=(ROOT/"index.html").read_text(encoding="utf-8")
 assert 'id="mobileMenu"' in home and 'id="mobileLinks"' in home
 assert "aria-expanded" in home
 print("OK responsive navigation and exact plan-index handoff")
+
+# Region prices are sourced from the original public pricing matrix.
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+assert "const regionPrices=" in config
+assert "const availableRegions=" in config
+assert "monthlyUSD:monthlyPrice()" in config
+assert "monthlyPrice()*period" in config
+assert "if(!regionPrices[type][region])region=availableRegions()[0]" in config
+for value in ("146.5,234.5,906,1714.5","12,18.5,26,36.5","68,122,195.5,293.5","10,16,23,32,44,58.5"):
+    assert value in config, f"missing source region pricing {value}"
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for name in ("Linux VPS","Dedicated Servers","Windows RDP","GPU AI Hosting","Domain Names"):
+    assert name in home
+assert 'class="product-grid"' in home
+print("OK source-based per-region pricing, region availability and homepage product cards")
