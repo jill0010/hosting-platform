@@ -33,6 +33,15 @@ function applyPriceFilters(){
  });
  filterStatus.textContent=visible+' plan tiers shown · '+available+' available region-tier prices'+(region!=='all'?' for '+region:'')+(query?' matching “'+query+'”':'')+'.';
 }
-regionFilter.addEventListener('change',applyPriceFilters);priceSearch.addEventListener('input',applyPriceFilters);
-document.querySelector('#clearFilters').addEventListener('click',()=>{regionFilter.value='all';priceSearch.value='';applyPriceFilters();priceSearch.focus()});applyPriceFilters();
+function syncPriceFilterUrl(){
+ const u=new URL(location.href);
+ if(regionFilter.value==='all')u.searchParams.delete('region');else u.searchParams.set('region',regionFilter.value);
+ if(!priceSearch.value.trim())u.searchParams.delete('q');else u.searchParams.set('q',priceSearch.value.trim());
+ history.replaceState(null,'',u.pathname+u.search+u.hash);
+}
+const initialPriceParams=new URLSearchParams(location.search);
+if(regions.includes(initialPriceParams.get('region')))regionFilter.value=initialPriceParams.get('region');
+if(initialPriceParams.has('q'))priceSearch.value=initialPriceParams.get('q').slice(0,80);
+regionFilter.addEventListener('change',()=>{applyPriceFilters();syncPriceFilterUrl()});priceSearch.addEventListener('input',()=>{applyPriceFilters();syncPriceFilterUrl()});
+document.querySelector('#clearFilters').addEventListener('click',()=>{regionFilter.value='all';priceSearch.value='';applyPriceFilters();syncPriceFilterUrl();priceSearch.focus()});applyPriceFilters();
 const mobileButton=document.querySelector('#mobileMenu'),mobileNav=document.querySelector('#mobileNav');function closeMobileNav(){mobileNav.hidden=true;mobileButton.setAttribute('aria-expanded','false')}mobileButton.addEventListener('click',()=>{mobileNav.hidden=!mobileNav.hidden;mobileButton.setAttribute('aria-expanded',String(!mobileNav.hidden))});mobileNav.addEventListener('click',e=>{if(e.target.closest('a'))closeMobileNav()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mobileNav.hidden){closeMobileNav();mobileButton.focus()}});window.addEventListener('resize',()=>{if(window.innerWidth>750)closeMobileNav()});</script></body></html>
