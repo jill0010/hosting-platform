@@ -102,3 +102,13 @@ for path in ("vps-plans.html","dedicated-plans.html","rdp-plans.html","gpu-plans
     assert path in comparison, "pricing navigation missing: "+path
 assert "footer-bottom" in home
 print("OK provider comparisons, direct provider routing and complete footer navigation")
+
+domains=(ROOT/"domains.html").read_text(encoding="utf-8")
+for marker in ("Anonymous Domain Names","Every domain includes","Get a domain in 3 steps","Built for privacy, not paperwork","26+ TLDS","WHOIS privacy","const descriptions=","Best deal","domain-step-grid"):
+    assert marker in domains, "source domain page section missing: "+marker
+assert "This domain extension is not in the current 26-TLD catalog" in domains
+assert "const label=suffix?input.slice(0,-suffix[0].length):input" in domains
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+assert "$('#region').addEventListener('change'" in config
+assert "if(!regionPrices[type][region])region=availableRegions()[0];$('#region').innerHTML=" in config
+print("OK domain landing page completeness and configurator region state")
