@@ -15,22 +15,23 @@ window.addEventListener('hashchange',highlightTab);highlightTab();
 const regionFilter=document.querySelector('#regionFilter'),priceSearch=document.querySelector('#priceSearch'),filterStatus=document.querySelector('#filterStatus');
 regionFilter.innerHTML+=regions.map(region=>'<option value="'+region+'">'+region+'</option>').join('');
 function applyPriceFilters(){
- const region=regionFilter.value,query=priceSearch.value.trim().toLowerCase();let visible=0;
+ const region=regionFilter.value,query=priceSearch.value.trim().toLowerCase();let visible=0,available=0;
  types.forEach(([type,label,tiers])=>{
   const section=document.getElementById(type),table=section.querySelector('table'),headers=[...table.querySelectorAll('thead th')];
-  const typeMatches=!query||type.includes(query)||label.toLowerCase().includes(query);
+  const regionAvailable=region==='all'||Boolean(regionPrices[type][region]);
+  const typeMatches=type.includes(query)||label.toLowerCase().includes(query);
   headers.forEach((th,i)=>{if(i>0)th.hidden=region!=='all'&&th.textContent!==region});
   let rows=0;
-  section.querySelectorAll('tbody tr').forEach(tr=>{
+  section.querySelectorAll('tbody tr').forEach((tr,i)=>{
    const name=tr.cells[0].textContent.toLowerCase();
-   const matches=typeMatches||name.includes(query);
+   const matches=regionAvailable&&(!query||typeMatches||name.includes(query));
    tr.hidden=!matches;
-   [...tr.cells].forEach((cell,i)=>{if(i>0)cell.hidden=region!=='all'&&regions[i-1]!==region});
-   if(matches)rows++;
+   [...tr.cells].forEach((cell,j)=>{if(j>0)cell.hidden=region!=='all'&&regions[j-1]!==region});
+   if(matches){rows++;available+=region==='all'?Object.keys(regionPrices[type]).length:1}
   });
   section.hidden=rows===0;visible+=rows;
  });
- filterStatus.textContent=visible+' plan tiers shown'+(region!=='all'?' for '+region:'')+(query?' matching “'+query+'”':'')+'.';
+ filterStatus.textContent=visible+' plan tiers shown · '+available+' available region-tier prices'+(region!=='all'?' for '+region:'')+(query?' matching “'+query+'”':'')+'.';
 }
 regionFilter.addEventListener('change',applyPriceFilters);priceSearch.addEventListener('input',applyPriceFilters);
 document.querySelector('#clearFilters').addEventListener('click',()=>{regionFilter.value='all';priceSearch.value='';applyPriceFilters();priceSearch.focus()});applyPriceFilters();
