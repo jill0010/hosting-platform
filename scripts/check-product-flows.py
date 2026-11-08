@@ -28,3 +28,17 @@ assert "NO-VALID-PAYMENT-ADDRESS" in home, "non-payable payment state missing"
 assert "const currency=" in home, "currency-specific payment preview missing"
 assert "This preview has no support backend" in home
 print("OK dashboard deep links, billing and payment preview state")
+
+directory=(ROOT/"page-directory.html").read_text(encoding="utf-8")
+assert "if(p==='/com-domain')return 'com-domain.html'" in directory
+assert "if(p==='/account')return 'account.html'" in directory
+com=(ROOT/"com-domain.html").read_text(encoding="utf-8")
+assert "Search .com" in com and "Availability unknown" in com
+assert "domains.html?domain=" in com
+account=(ROOT/"account.html").read_text(encoding="utf-8")
+for route in ("overview","topup","billing","tickets","security","service-vps","service-dedicated","service-rdp","service-gpu","service-domains"):
+    assert "index.html#"+route in account, "account route missing: "+route
+domains=(ROOT/"domains.html").read_text(encoding="utf-8")
+assert "new URLSearchParams(location.search).get('domain')" in domains
+assert "search('mydomain'+b.dataset.tld)" in domains
+print("OK .com and account routes, domain query links and all dashboard sections")
