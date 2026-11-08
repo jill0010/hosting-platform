@@ -272,3 +272,11 @@ for marker in ("history.pushState(null,'',next)","history.replaceState(null,'',n
 pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
 assert "[hidden]{display:none!important}" in pricing
 print("OK browser history, accessible selected plans and cross-browser pricing filters")
+
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ("u.searchParams.set('os',$('#os').value)","u.searchParams.set('period',$('#period').value)","function restoreOptionalSettings(q)","restoreOptionalSettings(params);draw();","restoreOptionalSettings(q);draw();"):
+    assert marker in config, f"missing OS/billing deep link restoration {marker}"
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+for marker in ("function syncPriceFilterUrl()","initialPriceParams.get('region')","initialPriceParams.get('q')","u.searchParams.set('region',regionFilter.value)","u.searchParams.set('q',priceSearch.value.trim())","filterStatus.setAttribute('aria-live','polite')"):
+    assert marker in pricing, f"missing shareable pricing filters {marker}"
+print("OK OS/billing deep link restoration and accessible shareable pricing filters")
