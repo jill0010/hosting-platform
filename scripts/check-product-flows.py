@@ -282,7 +282,7 @@ for marker in ("function syncPriceFilterUrl()","initialPriceParams.get('region')
 print("OK OS/billing deep link restoration and accessible shareable pricing filters")
 
 pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
-for marker in ("const tierSpecs=","['vps','Linux VPS',['S','M','L','XL','XXL','PRO']]","['dedicated','Dedicated',['1','2','3','4']]","['rdp','Windows RDP',['S','M','L','XL']]","'<th>Plan</th><th>Specifications</th>'","tr.cells[1].textContent","regions[j-2]","RDP bandwidth is capped by tier"):
+for marker in ("const tierSpecs=","['vps','Linux VPS',['S','M','L','XL','XXL','PRO']]","['dedicated','Dedicated',['1','2','3','4']]","['rdp','Windows RDP',['S','M','L','XL']]","'<th>Plan</th><th>Specifications</th>'+regions.map","tr.cells[1].textContent","regions[j-2]","RDP bandwidth is capped by tier"):
     assert marker in pricing, f"missing original pricing hardware/tier display {marker}"
 config=(ROOT/"configure.html").read_text(encoding="utf-8")
 for marker in ("const sourceTierLabels=","function displayTier(i=planIndex)","sourceTier:displayTier()"):
