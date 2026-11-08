@@ -1,0 +1,27 @@
+category,url,authentication,captured,notes
+Core,https://anonport.com/,public,no,Homepage
+Core,https://anonport.com/pricing,public,no,Pricing
+Core,https://anonport.com/status,verify,no,Status page
+Core,https://anonport.com/account,login,no,Account dashboard
+Core,https://anonport.com/jurisdiction-selector,verify,no,Jurisdiction selector
+Services,https://anonport.com/vps,public,no,VPS
+Services,https://anonport.com/dedicated,public,no,Dedicated servers
+Services,https://anonport.com/rdp,public,no,Windows RDP
+Services,https://anonport.com/gpu,public,no,GPU
+Services,https://anonport.com/node-hosting,public,no,Node hosting
+Services,https://anonport.com/censorship-resistant-hosting,public,no,Censorship-resistant hosting
+Services,https://anonport.com/domains,public,no,Domains
+Services,https://anonport.com/com-domain,public,no,COM domain
+Directories,https://anonport.com/locations,public,no,Locations
+Directories,https://anonport.com/alternatives,public,no,Alternatives
+Directories,https://anonport.com/guides,public,no,Guides
+Directories,https://anonport.com/use-cases,public,no,Use cases
+Core,https://anonport.com/faq,public,no,FAQ
+Core,https://anonport.com/about,public,no,About
+Core,https://anonport.com/contact,public,no,Contact
+Core,https://anonport.com/canary,public,no,Canary
+Core,https://anonport.com/press,public,no,Press
+Legal,https://anonport.com/tos,public,no,Terms
+Legal,https://anonport.com/privacy,public,no,Privacy
+Languages,https://anonport.com/ru,public,no,Russian
+Languages,https://anonport.com/zh,public,no,Chinese
