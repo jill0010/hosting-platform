@@ -206,3 +206,11 @@ for name in ("localized.html","page-directory.html"):
 assert 'href="pricing.html">Pricing</a><button' in (ROOT/"compare.html").read_text(encoding="utf-8")
 assert (ROOT/"index.html").read_text(encoding="utf-8").count('href="jurisdiction-selector.html">Jurisdiction Finder</a>')==2
 print("OK localized, page directory, comparison and homepage navigation links")
+
+for name,heading in (("vps-plans.html","Offshore VPS — Frequently Asked Questions"),("dedicated-plans.html","Dedicated Servers — Frequently Asked Questions"),("rdp-plans.html","RDP FAQ"),("gpu-plans.html","GPU AI Hosting FAQ")):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in (heading,'class="detail-grid"','class="faq-list"','class="source-cta"','id="faq"','<details><summary>'):
+        assert marker in page, f"{name}: missing original product content {marker}"
+    assert page.count('<details><summary>')==6, f"{name}: expected six FAQs"
+    assert page.count("</html>")==1, f"{name}: malformed document"
+print("OK four source-aligned product landing pages with included features and six FAQs each")
