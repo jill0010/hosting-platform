@@ -31,7 +31,7 @@ function applyPriceFilters(){
   });
   section.hidden=rows===0;visible+=rows;
  });
- filterStatus.textContent=visible+' plan tiers shown · '+available+' available region-tier prices'+(region!=='all'?' for '+region:'')+(query?' matching “'+query+'”':'')+'.';
+ filterStatus.textContent=visible+' plan tiers shown · '+available+' available region-tier prices'+(region!=='all'?' for '+region:'')+(query?' matching “'+query+'”':'')+'.';filterStatus.setAttribute('role','status');filterStatus.setAttribute('aria-live','polite');
 }
 function syncPriceFilterUrl(){
  const u=new URL(location.href);
