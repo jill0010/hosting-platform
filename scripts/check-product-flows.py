@@ -180,3 +180,10 @@ for name in ("account.html","configure.html"):
     for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()','href="pricing.html"'):
         assert marker in page, f"{name}: missing responsive product navigation {marker}"
 print("OK checkout expiration, account dialog focus and account/configurator mobile navigation")
+
+for name in ("domains.html","com-domain.html","support.html","locations.html"):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()','href="pricing.html"','href="com-domain.html"'):
+        assert marker in page, f"{name}: missing mobile navigation: {marker}"
+    assert page.count("</html>")==1, f"{name}: duplicate document ending"
+print("OK mobile product navigation on domains, .com, support and locations")
