@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1] / "frontend"
 EXPECTED = [
     "index.html", "services.html", "jurisdiction-selector.html",
     "domains.html", "locations.html", "use-cases.html", "page-directory.html",
-    "support.html", "solutions.html", "guides.html", "compare.html", "localized.html", "configure.html", "vps-plans.html"
+    "support.html", "solutions.html", "guides.html", "compare.html", "localized.html", "configure.html", "vps-plans.html", "dedicated-plans.html"
 ]
 
 class Links(HTMLParser):
