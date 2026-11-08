@@ -256,3 +256,12 @@ assert "$('#hostname').addEventListener('input',()=>{" in config
 assert "['os','period','hostname'].forEach" not in config
 assert "function draw(){syncOsOptions();$('#confirmation').classList.add('hide')" in config
 print("OK pricing filters exclude unavailable regions and configurator preserves hostname input focus")
+
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+assert "class=\"starting-price\"" in pricing
+assert "region='+encodeURIComponent(region)+'&planIndex=0&price='" in pricing
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ('function syncConfigUrl(){','history.replaceState(null,','syncConfigUrl();','id="share"','navigator.clipboard.writeText(url)','Configuration link copied.'):
+    assert marker in config, f"configurator missing shareable URL behavior: {marker}"
+assert config.index("$('#region').value=region;syncConfigUrl()")>config.index('function draw(){')
+print("OK price matrix links preserve exact selection and configurator URL stays shareable")
