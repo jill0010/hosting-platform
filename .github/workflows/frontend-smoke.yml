@@ -6,11 +6,14 @@ on:
       - 'frontend/**'
       - 'scripts/check-frontend.py'
       - 'scripts/check-inline-js.py'
+      - 'scripts/check-product-flows.py'
       - '.github/workflows/frontend-smoke.yml'
   pull_request:
     paths:
       - 'frontend/**'
       - 'scripts/check-frontend.py'
+      - 'scripts/check-inline-js.py'
+      - 'scripts/check-product-flows.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,3 +26,5 @@ jobs:
         run: python3 scripts/check-frontend.py
       - name: Check inline JavaScript syntax
         run: python3 scripts/check-inline-js.py
+      - name: Check pricing and product selection flows
+        run: python3 scripts/check-product-flows.py
