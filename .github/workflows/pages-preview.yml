@@ -2,10 +2,9 @@ name: Deploy frontend preview to GitHub Pages
 
 on:
   push:
-    branches: [main, restore-from-user-archives]
+    branches: [main]
     paths:
       - 'frontend/**'
-      - 'restored-site/**'
       - '.github/workflows/pages-preview.yml'
   workflow_dispatch:
 
@@ -32,7 +31,7 @@ jobs:
       - name: Upload frontend
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ github.ref_name == 'restore-from-user-archives' && './restored-site' || './frontend' }}
+          path: ./frontend
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
