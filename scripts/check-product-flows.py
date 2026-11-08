@@ -51,3 +51,15 @@ for page in ("solutions.html","use-cases.html","guides.html","locations.html","s
 assert "['iceland','🇮🇸'" in (ROOT/"locations.html").read_text(encoding="utf-8")
 assert "current[0]" in (ROOT/"locations.html").read_text(encoding="utf-8")
 print("OK editorial navigation and country-specific product links")
+
+for kind,(name,count) in sources.items():
+    page=(ROOT/name).read_text(encoding="utf-8")
+    assert "'&planIndex='+i" in page, f"{name}: exact plan index missing"
+    assert "account.html" in page and "com-domain.html" in page, f"{name}: common navigation incomplete"
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+assert "Number(params.get('planIndex'))" in config
+assert "planIndex=requestedIndex" in config
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+assert 'id="mobileMenu"' in home and 'id="mobileLinks"' in home
+assert "aria-expanded" in home
+print("OK responsive navigation and exact plan-index handoff")
