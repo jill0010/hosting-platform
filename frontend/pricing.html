@@ -13,7 +13,7 @@ function highlightTab(){const hash=location.hash.slice(1)||'vps';document.queryS
 window.addEventListener('hashchange',highlightTab);highlightTab();
 
 const regionFilter=document.querySelector('#regionFilter'),priceSearch=document.querySelector('#priceSearch'),filterStatus=document.querySelector('#filterStatus');
-regionFilter.innerHTML+='<option value="all">All available regions</option>'.replace('<option value="all">All available regions</option>','')+regions.map(region=>'<option value="'+region+'">'+region+'</option>').join('');
+regionFilter.innerHTML+=regions.map(region=>'<option value="'+region+'">'+region+'</option>').join('');
 function applyPriceFilters(){
  const region=regionFilter.value,query=priceSearch.value.trim().toLowerCase();let visible=0;
  types.forEach(([type,label,tiers])=>{
