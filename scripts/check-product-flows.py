@@ -112,3 +112,10 @@ config=(ROOT/"configure.html").read_text(encoding="utf-8")
 assert "$('#region').addEventListener('change'" in config
 assert "if(!regionPrices[type][region])region=availableRegions()[0];$('#region').innerHTML=" in config
 print("OK domain landing page completeness and configurator region state")
+
+com=(ROOT/"com-domain.html").read_text(encoding="utf-8")
+for marker in ("Cheap .com Domain — $4.99/yr","Every .com includes","Your cheap .com in 3 steps","A cheap .com — and a private one","A .com built for privacy, not paperwork","com-table-scroll","Namecheap","GoDaddy","Cloudflare","Porkbun","TheOnionHost"):
+    assert marker in com, "missing source .com page section: "+marker
+assert "No registry connection" in com
+assert "historical example prices" in com
+print("OK dedicated .com landing page source section coverage")
