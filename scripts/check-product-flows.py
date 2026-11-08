@@ -234,3 +234,9 @@ assert "crypto-node-hosting" in vps and "vpn-hosting" in vps
 dedicated=(ROOT/"dedicated-plans.html").read_text(encoding="utf-8")
 assert "crypto-node-hosting" in dedicated and "support.html?page=contact" in dedicated
 print("OK original jurisdiction-specific VPS CPU mappings and related workload navigation")
+
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ('id="hardware"','function hardwareFields()','function drawHardware()','drawHardware();','const sourceCpu=','const dedicatedHardware=','const gpuHardware=','const rdpCpu=','function syncOsOptions()','syncOsOptions();','Windows Server 2025','CUDA 12.6','20 TB/mo'):
+    assert marker in config, f"configurator missing live hardware or OS detail {marker}"
+assert config.count('id="hardware"')==1
+print("OK configurator source hardware mapping, reactive specifications and type-specific OS choices")
