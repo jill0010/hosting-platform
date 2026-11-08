@@ -149,3 +149,16 @@ for marker in ("['◎','Solana','SOL']","seconds:3600","state.seconds=3600","◷
     assert marker in home, "missing safe checkout flow or source crypto option: "+marker
 assert 'data-copy="address">Copy</button>' not in home
 print("OK 8 source crypto payment choices, payment preview safety and top-up limits")
+
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+import re
+reference=re.search(r"const regionPrices=(\{.*?\});const ",config,re.S)
+matrix=re.search(r"const regionPrices=(\{.*?\});",pricing,re.S)
+assert reference and matrix and reference.group(1)==matrix.group(1), "pricing matrix differs from configurator"
+for marker in ("Offshore Server Pricing — VPS, Dedicated, RDP &amp; GPU","Starting Prices by Location","Every Plan, Every Location","102 listed monthly price combinations","id=\"priceTabs\"","id=\"locationRows\"","id=\"matrices\"","&planIndex=","&price=","function highlightTab()"):
+    assert marker in pricing, "pricing matrix missing "+marker
+assert "if(p==='/pricing')return 'pricing.html'" in (ROOT/"page-directory.html").read_text(encoding="utf-8")
+assert "location.replace('pricing.html')" in (ROOT/"compare.html").read_text(encoding="utf-8")
+assert (ROOT/"index.html").read_text(encoding="utf-8").count('href="pricing.html"')>=2
+print("OK complete 102-price matrix, source pricing entrypoint and configuration deep links")
