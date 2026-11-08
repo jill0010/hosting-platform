@@ -119,3 +119,9 @@ for marker in ("Cheap .com Domain — $4.99/yr","Every .com includes","Your chea
 assert "No registry connection" in com
 assert "historical example prices" in com
 print("OK dedicated .com landing page source section coverage")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for marker in ("crypto.getRandomValues(bytes)","aria-labelledby=\"accountDialogTitle\"","id=\"accountDialogTitle\"","aria-label=\"Close account dialog\"","role=\"alert\"","maxlength=\"19\"","first?.focus()","e.key==='Tab'","e.key==='Enter'","closeMobileMenu()","window.innerWidth>760"):
+    assert marker in home, "missing account accessibility or mobile menu behavior: "+marker
+assert "Math.random().toString(36)" not in home, "weak preview token generator still present"
+print("OK accessible account modal, cryptographic sample token and mobile menu behavior")
