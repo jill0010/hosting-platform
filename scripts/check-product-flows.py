@@ -246,3 +246,13 @@ assert "hardware:Object.fromEntries(hardwareFields())" in config
 for marker in ("s.hardware.CPU","s.hardware.GPU","s.hardware.Memory","s.hardware.VRAM","s.hardware.NVMe","s.hardware.Storage"):
     assert marker in config, f"summary missing selected hardware field {marker}"
 print("OK copied configuration and order summary reflect selected hardware")
+
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+for marker in ("const regionAvailable=region==='all'||Boolean(regionPrices[type][region])","const matches=regionAvailable&&(!query||typeMatches||name.includes(query))","available+' available region-tier prices'","const typeMatches=Boolean(query)"):
+    assert marker in pricing, f"pricing filters missing correct availability/search handling {marker}"
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+assert "['os','period'].forEach(id=>$('#'+id).addEventListener('change'" in config
+assert "$('#hostname').addEventListener('input',()=>{" in config
+assert "['os','period','hostname'].forEach" not in config
+assert "function draw(){syncOsOptions();$('#confirmation').classList.add('hide')" in config
+print("OK pricing filters exclude unavailable regions and configurator preserves hostname input focus")
