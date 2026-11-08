@@ -280,3 +280,11 @@ pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
 for marker in ("function syncPriceFilterUrl()","initialPriceParams.get('region')","initialPriceParams.get('q')","u.searchParams.set('region',regionFilter.value)","u.searchParams.set('q',priceSearch.value.trim())","filterStatus.setAttribute('aria-live','polite')"):
     assert marker in pricing, f"missing shareable pricing filters {marker}"
 print("OK OS/billing deep link restoration and accessible shareable pricing filters")
+
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+for marker in ("const tierSpecs=","['vps','Linux VPS',['S','M','L','XL','XXL','PRO']]","['dedicated','Dedicated',['1','2','3','4']]","['rdp','Windows RDP',['S','M','L','XL']]","'<th>Plan</th><th>Specifications</th>'","tr.cells[1].textContent","regions[j-2]","RDP bandwidth is capped by tier"):
+    assert marker in pricing, f"missing original pricing hardware/tier display {marker}"
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ("const sourceTierLabels=","function displayTier(i=planIndex)","sourceTier:displayTier()"):
+    assert marker in config, f"missing source tier label in configurator {marker}"
+print("OK source pricing tier labels, hardware columns, region filtering offsets and RDP bandwidth distinction")
