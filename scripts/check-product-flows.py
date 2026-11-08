@@ -171,3 +171,12 @@ for name in ("pricing.html","compare.html"):
     for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()',"window.innerWidth>750"):
         assert marker in page, f"{name}: missing responsive navigation: {marker}"
 print("OK pricing region and plan filters, source table links and responsive pricing/comparison menus")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for marker in ('Expired (preview)','Checkout preview expired. No payment was requested or processed.',"document.querySelector('#overlay [data-go=\"overview\"]')","$('#dashboardBtn')?.focus()"):
+    assert marker in home, "missing checkout expiration or modal focus: "+marker
+for name in ("account.html","configure.html"):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()','href="pricing.html"'):
+        assert marker in page, f"{name}: missing responsive product navigation {marker}"
+print("OK checkout expiration, account dialog focus and account/configurator mobile navigation")
