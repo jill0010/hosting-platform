@@ -32,6 +32,13 @@ for filename in EXPECTED:
     source = path.read_text(encoding="utf-8")
     if "<!doctype html>" not in source.lower():
         failures.append(f"Missing HTML doctype: {filename}")
+    # Catch accidental whole-document duplication caused by unsafe JS string replacement.
+    if source.lower().count("<!doctype html>") != 1:
+        failures.append(f"{filename}: duplicate document doctype")
+    if source.lower().count("</html>") != 1:
+        failures.append(f"{filename}: duplicate document ending")
+    if source.count("<script") != source.count("</script>"):
+        failures.append(f"{filename}: unbalanced script elements")
     parser = Links()
     parser.feed(source)
     for url in parser.links:
