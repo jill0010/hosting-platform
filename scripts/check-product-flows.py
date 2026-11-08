@@ -198,3 +198,11 @@ for name in ("vps","dedicated","rdp","gpu"):
     assert f'href="{name}-plans.html"' in wizard, f"wizard missing {name} destination"
 assert 'href="domains.html"' in (ROOT/"services.html").read_text(encoding="utf-8")
 print("OK service catalog, solutions, guides, use cases and jurisdiction wizard navigation")
+
+for name in ("localized.html","page-directory.html"):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()','href="pricing.html"','href="account.html"'):
+        assert marker in page, f"{name}: missing navigation {marker}"
+assert 'href="pricing.html">Pricing</a><button' in (ROOT/"compare.html").read_text(encoding="utf-8")
+assert (ROOT/"index.html").read_text(encoding="utf-8").count('href="jurisdiction-selector.html">Jurisdiction Finder</a>')==2
+print("OK localized, page directory, comparison and homepage navigation links")
