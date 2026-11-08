@@ -89,3 +89,16 @@ for slug in ("no-kyc-hosting","dmca-ignored-hosting","bitcoin-hosting","offshore
 vps=(ROOT/"vps-plans.html").read_text(encoding="utf-8")
 assert "AMD EPYC '+(i>2?'9454':'7643')" in vps
 print("OK homepage jurisdictions, solutions, FAQ, CTA and CPU models")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+comparison=(ROOT/"compare.html").read_text(encoding="utf-8")
+assert "See How We Stack Up Against the Competition" in home
+assert 'class="comparison-grid"' in home
+assert "provider='+(" in home, "provider cards do not preserve selected provider"
+assert "const providers=" in comparison and "const selected=" in comparison
+for provider in ("Njalla","FlokiNET","1984 Hosting","OrangeWebsite","BuyVM","Hetzner","OVHcloud","AWS","DigitalOcean","RunPod","Vast.ai","Contabo"):
+    assert provider in home and provider in comparison, "provider missing: "+provider
+for path in ("vps-plans.html","dedicated-plans.html","rdp-plans.html","gpu-plans.html"):
+    assert path in comparison, "pricing navigation missing: "+path
+assert "footer-bottom" in home
+print("OK provider comparisons, direct provider routing and complete footer navigation")
