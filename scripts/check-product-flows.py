@@ -19,3 +19,12 @@ domains=(ROOT/"domains.html").read_text(encoding="utf-8")
 assert "Renewal prices, not promo bait" in domains
 assert "const tlds=" in domains
 print("OK configurator lifecycle and domain pricing")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for page in ("overview","topup","billing","tickets","security","service-vps","service-dedicated","service-rdp","service-gpu","service-domains"):
+    assert "'"+page+"'" in home, f"dashboard missing {page}"
+assert "popstate" in home and "history.pushState" in home, "dashboard navigation history missing"
+assert "NO-VALID-PAYMENT-ADDRESS" in home, "non-payable payment state missing"
+assert "const currency=" in home, "currency-specific payment preview missing"
+assert "This preview has no support backend" in home
+print("OK dashboard deep links, billing and payment preview state")
