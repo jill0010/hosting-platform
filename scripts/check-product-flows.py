@@ -78,3 +78,14 @@ for name in ("Linux VPS","Dedicated Servers","Windows RDP","GPU AI Hosting","Dom
     assert name in home
 assert 'class="product-grid"' in home
 print("OK source-based per-region pricing, region availability and homepage product cards")
+
+home=(ROOT/"index.html").read_text(encoding="utf-8")
+for marker in ("7 LOCATIONS","Choose Your Jurisdiction","PRIVACY SOLUTIONS","Choose Your Privacy Angle","Are the IP addresses clean?","Deploy Your Offshore Server","class=\"closing-cta\""):
+    assert marker in home, "homepage section missing: "+marker
+for country in ("iceland","panama","moldova","romania","switzerland","netherlands","russia"):
+    assert "locations.html?country=" in home and "'"+country+"'" in home
+for slug in ("no-kyc-hosting","dmca-ignored-hosting","bitcoin-hosting","offshore-hosting","anonymous-hosting"):
+    assert slug in home
+vps=(ROOT/"vps-plans.html").read_text(encoding="utf-8")
+assert "AMD EPYC '+(i>2?'9454':'7643')" in vps
+print("OK homepage jurisdictions, solutions, FAQ, CTA and CPU models")
