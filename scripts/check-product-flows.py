@@ -87,7 +87,7 @@ for country in ("iceland","panama","moldova","romania","switzerland","netherland
 for slug in ("no-kyc-hosting","dmca-ignored-hosting","bitcoin-hosting","offshore-hosting","anonymous-hosting"):
     assert slug in home
 vps=(ROOT/"vps-plans.html").read_text(encoding="utf-8")
-assert "AMD EPYC '+(i>2?'9454':'7643')" in vps
+assert "AMD EPYC '+(i>2?" in vps and "9474F" in vps and "7313P" in vps
 print("OK homepage jurisdictions, solutions, FAQ, CTA and CPU models")
 
 home=(ROOT/"index.html").read_text(encoding="utf-8")
