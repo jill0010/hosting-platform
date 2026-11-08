@@ -162,3 +162,12 @@ assert "if(p==='/pricing')return 'pricing.html'" in (ROOT/"page-directory.html")
 assert "location.replace('pricing.html')" in (ROOT/"compare.html").read_text(encoding="utf-8")
 assert (ROOT/"index.html").read_text(encoding="utf-8").count('href="pricing.html"')>=2
 print("OK complete 102-price matrix, source pricing entrypoint and configuration deep links")
+
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+for marker in ('id="regionFilter"','id="priceSearch"','id="clearFilters"','id="filterStatus"','function applyPriceFilters()',"regionFilter.addEventListener('change'","priceSearch.addEventListener('input'","tr.hidden=!matches","cell.hidden=region!=='all'","class=\"starting-price\""):
+    assert marker in pricing, "missing interactive pricing matrix feature: "+marker
+for name in ("pricing.html","compare.html"):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()',"window.innerWidth>750"):
+        assert marker in page, f"{name}: missing responsive navigation: {marker}"
+print("OK pricing region and plan filters, source table links and responsive pricing/comparison menus")
