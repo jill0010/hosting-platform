@@ -134,3 +134,12 @@ config=(ROOT/"configure.html").read_text(encoding="utf-8")
 for marker in ('href="vps-plans.html"','href="dedicated-plans.html"','href="rdp-plans.html"','href="gpu-plans.html"','href="domains.html"','href="account.html"','id="total" aria-live="polite"'):
     assert marker in config, "configurator navigation or accessibility missing: "+marker
 print("OK jurisdiction tabs and configurator accessibility across all four product categories")
+
+for kind,(filename,count) in sources.items():
+    page=(ROOT/filename).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()',"mobileNav.addEventListener('click'","window.innerWidth>700","e.key==='Escape'"):
+        assert marker in page, f"{filename}: missing responsive mobile navigation: {marker}"
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ('Hostname must be 1–63 letters',"confirmation.setAttribute('role','alert')","$('#hostname').focus()",'autocomplete="off" spellcheck="false" pattern='):
+    assert marker in config, "missing hostname validation: "+marker
+print("OK four product mobile menus and hostname review validation")
