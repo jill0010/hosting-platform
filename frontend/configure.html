@@ -19,6 +19,7 @@ function syncConfigUrl(){
  const u=new URL(location.href);
  u.searchParams.set('type',type);u.searchParams.set('region',region);u.searchParams.set('planIndex',String(planIndex));
  u.searchParams.set('plan',plans[type][planIndex][0]);u.searchParams.set('price',monthlyPrice().toFixed(2));
+ u.searchParams.set('os',$('#os').value);u.searchParams.set('period',$('#period').value);
  const next=u.pathname+u.search+u.hash;
  if(next===lastSelectionUrl)return;
  if(!lastSelectionUrl)history.replaceState(null,'',next);
