@@ -60,8 +60,13 @@ def restore(source: Path):
                 if not dest.exists():
                     dest.write_bytes(data)
             html = re.sub(r'<script\b[^>]*src=["\'][^"\']*(?:network-beacon|replay-beacon|rrweb-umd-min)[^"\']*["\'][^>]*>\s*</script>', "", html, flags=re.I)
-            html = re.sub(r'(?<=["\'])/(?!/)(?=(?:vps|dedicated|rdp|gpu|domains|pricing|support|account|jurisdiction-selector|locations|solutions|guides|use-cases)(?:/|["\'?]))', "", html)
-            html = html.replace('href="/"', 'href="index.html"')
+            # GitHub Pages is hosted under /hosting-platform/; use a base tag
+            # so archived assets/ links work from nested restored routes.
+            html = html.replace("<head>", '<head><base href="/hosting-platform/">', 1)
+            html = re.sub(r'href=["\\']/((?!/)[^"\\']*)["\\']',
+                          lambda m: 'href="' + m.group(1).rstrip("/") + (".html" if "." not in m.group(1).split("/")[-1] else "") + '"',
+                          html)
+            html = html.replace('href=""', 'href="index.html"')
             dest = OUTPUT / route
             dest.parent.mkdir(parents=True, exist_ok=True)
             if dest.exists() and dest.read_text(encoding="utf-8") != html:
