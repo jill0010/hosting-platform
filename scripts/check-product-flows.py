@@ -214,3 +214,15 @@ for name,heading in (("vps-plans.html","Offshore VPS — Frequently Asked Questi
     assert page.count('<details><summary>')==6, f"{name}: expected six FAQs"
     assert page.count("</html>")==1, f"{name}: malformed document"
 print("OK four source-aligned product landing pages with included features and six FAQs each")
+
+rdp=(ROOT/"rdp-plans.html").read_text(encoding="utf-8")
+for cap in ('2 TB/mo','5 TB/mo','10 TB/mo','20 TB/mo'):
+    assert cap in rdp, f"RDP missing source bandwidth cap {cap}"
+for cpu in ('Ryzen 7 5800X','Ryzen 9 5900X','Core i9-12900K','Ryzen 9 7950X'):
+    assert cpu in rdp, f"RDP missing original CPU {cpu}"
+for marker in ('id="use-cases"','What Windows RDP is Used For','Multi-account SMM','Browser automation','Windows-only apps'):
+    assert marker in rdp, f"RDP missing workload {marker}"
+gpu=(ROOT/"gpu-plans.html").read_text(encoding="utf-8")
+assert 'const headers=["Plan","GPU","VRAM","CPU","RAM","NVMe","Bandwidth","Price",""]' in gpu
+assert "<td>Unlimited</td>" in gpu
+print("OK original RDP CPU/bandwidth specs, workload cards and GPU bandwidth column")
