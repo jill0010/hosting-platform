@@ -265,3 +265,10 @@ for marker in ('function syncConfigUrl(){','history.replaceState(null,','syncCon
     assert marker in config, f"configurator missing shareable URL behavior: {marker}"
 assert config.index("$('#region').value=region;syncConfigUrl()")>config.index('function draw(){')
 print("OK price matrix links preserve exact selection and configurator URL stays shareable")
+
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ("history.pushState(null,'',next)","history.replaceState(null,'',next)","window.addEventListener('popstate'","lastSelectionUrl=location.pathname+location.search+location.hash","aria-pressed="):
+    assert marker in config, f"missing browser navigation or accessible plan state: {marker}"
+pricing=(ROOT/"pricing.html").read_text(encoding="utf-8")
+assert "[hidden]{display:none!important}" in pricing
+print("OK browser history, accessible selected plans and cross-browser pricing filters")
