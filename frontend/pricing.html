@@ -19,7 +19,7 @@ function applyPriceFilters(){
  types.forEach(([type,label,tiers])=>{
   const section=document.getElementById(type),table=section.querySelector('table'),headers=[...table.querySelectorAll('thead th')];
   const regionAvailable=region==='all'||Boolean(regionPrices[type][region]);
-  const typeMatches=type.includes(query)||label.toLowerCase().includes(query);
+  const typeMatches=Boolean(query)&&(type.includes(query)||label.toLowerCase().includes(query));
   headers.forEach((th,i)=>{if(i>0)th.hidden=region!=='all'&&th.textContent!==region});
   let rows=0;
   section.querySelectorAll('tbody tr').forEach((tr,i)=>{
