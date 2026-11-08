@@ -187,3 +187,14 @@ for name in ("domains.html","com-domain.html","support.html","locations.html"):
         assert marker in page, f"{name}: missing mobile navigation: {marker}"
     assert page.count("</html>")==1, f"{name}: duplicate document ending"
 print("OK mobile product navigation on domains, .com, support and locations")
+
+for name in ("services.html","solutions.html","guides.html","use-cases.html","jurisdiction-selector.html"):
+    page=(ROOT/name).read_text(encoding="utf-8")
+    for marker in ('id="mobileMenu"','id="mobileNav"','aria-expanded="false"','function closeMobileNav()','href="pricing.html"','href="account.html"'):
+        assert marker in page, f"{name}: missing mobile navigation or destination: {marker}"
+    assert page.count("</html>")==1
+wizard=(ROOT/"jurisdiction-selector.html").read_text(encoding="utf-8")
+for name in ("vps","dedicated","rdp","gpu"):
+    assert f'href="{name}-plans.html"' in wizard, f"wizard missing {name} destination"
+assert 'href="domains.html"' in (ROOT/"services.html").read_text(encoding="utf-8")
+print("OK service catalog, solutions, guides, use cases and jurisdiction wizard navigation")
