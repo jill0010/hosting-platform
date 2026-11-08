@@ -5,6 +5,7 @@ on:
     paths:
       - 'frontend/**'
       - 'scripts/check-frontend.py'
+      - 'scripts/check-inline-js.py'
       - '.github/workflows/frontend-smoke.yml'
   pull_request:
     paths:
@@ -20,3 +21,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify frontend pages and links
         run: python3 scripts/check-frontend.py
+      - name: Check inline JavaScript syntax
+        run: python3 scripts/check-inline-js.py
