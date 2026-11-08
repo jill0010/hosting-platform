@@ -125,3 +125,12 @@ for marker in ("crypto.getRandomValues(bytes)","aria-labelledby=\"accountDialogT
     assert marker in home, "missing account accessibility or mobile menu behavior: "+marker
 assert "Math.random().toString(36)" not in home, "weak preview token generator still present"
 print("OK accessible account modal, cryptographic sample token and mobile menu behavior")
+
+for kind,(filename,count) in sources.items():
+    page=(ROOT/filename).read_text(encoding="utf-8")
+    for marker in ("function updateRegionTabs()","aria-current','location'","hashchange',updateRegionTabs","regionTabs.addEventListener('click'","country:target",".filter a.selected"):
+        assert marker in page, f"{filename}: missing active jurisdiction navigation {marker}"
+config=(ROOT/"configure.html").read_text(encoding="utf-8")
+for marker in ('href="vps-plans.html"','href="dedicated-plans.html"','href="rdp-plans.html"','href="gpu-plans.html"','href="domains.html"','href="account.html"','id="total" aria-live="polite"'):
+    assert marker in config, "configurator navigation or accessibility missing: "+marker
+print("OK jurisdiction tabs and configurator accessibility across all four product categories")
